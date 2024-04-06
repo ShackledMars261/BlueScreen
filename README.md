@@ -15,14 +15,14 @@ Recomended use is to paste the single line creation command from the txt into th
 ## Menu
 (Hit Ctrl+C at any time to exit or return to previous menu)
 ### Main Menue
->>> 1 Run Lockdown
- >> Runs all function in the most efficient order possible to reduce surface area of attack in the shortest amout of time.
->>> 2 Configure Services
- >> Opens Secondary Menu, allowing configuration of each service independently
-  > 1 Configure SSH
-  > 2 Configure Firewall
-  > 3 Lockdown Shadow Root
-  > 4 Update All Services
-  > 5 Password Reset
->>> 3 Wack A Red Teamer
-  > True/False Non-Friendlies on account, if true will kick all users not you even on same username, if false will leave other users on the same name alone. Will contineuosly kick any users that are not permitted if they somehow get in. Also Sends a fun message to the kicked User: '<<< Exterminate! >>>'
+- 1 Run Lockdown
+ - Runs all function in the most efficient order possible to reduce surface area of attack in the shortest amout of time.
+- 2 Configure Services
+ - Opens Secondary Menu, allowing configuration of each service independently
+  - 1 Configure SSH
+  - 2 Configure Firewall
+  - 3 Lockdown Shadow Root
+  - 4 Update All Services
+  - 5 Password Reset
+- 3 Wack A Red Teamer
+  - True/False Non-Friendlies on account, if true will kick all users not you even on same username, if false will leave other users on the same name alone. Will contineuosly kick any users that are not permitted if they somehow get in. Also Sends a fun message to the kicked User: '<<< Exterminate! >>>'
