@@ -16,7 +16,7 @@ Recomended use is to paste the single line creation command from the txt into th
 (Hit Ctrl+C at any time to exit or return to previous menu)
 ### Main Menue
 - 1 Run Lockdown
- - Runs all function in the most efficient order possible to reduce surface area of attack in the shortest amout of time.
+  - Runs all function in the most efficient order possible to reduce surface area of attack in the shortest amout of time.
 - 2 Configure Services
  - Opens Secondary Menu, allowing configuration of each service independently
   - 1 Configure SSH
