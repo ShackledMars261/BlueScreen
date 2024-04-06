@@ -27,7 +27,7 @@ Recomended use is to paste the single line creation command from the txt into th
 - 3 Wack A Red Teamer
   - True/False Non-Friendlies on account, if true will kick all users not you even on same username, if false will leave other users on the same name alone. Will contineuosly kick any users that are not permitted if they somehow get in. Also Sends a fun message to the kicked User: '<<< Exterminate! >>>'
 
-# Important Things to know
+## Important Things to know
 - Firewall config (ip-tables) will disable all connections you do not explicity allow
 - It is recomended you always allow 80, and 443 on the defualt gateway so you cna run updates!
 - Update Services is ran in a secondary thread during lockdown config, it is recomended you always run lockdown first in order to update services ASAP
