@@ -29,6 +29,6 @@ Recomended use is to paste the single line creation command from the txt into th
 
 ## Important Things to know
 - Firewall config (ip-tables) will disable all connections you do not explicity allow
-- It is recomended you always allow 80, and 443 on the defualt gateway so you cna run updates!
+- It is recomended you always allow 80, and 443 on the defualt gateway so you can run updates!
 - Update Services is ran in a secondary thread during lockdown config, it is recomended you always run lockdown first in order to update services ASAP
 - Password follow the format Godnamehere_{6 Random Characters}, this makes it easy to reference in a competion enviroment without giving away the actuall password. 
