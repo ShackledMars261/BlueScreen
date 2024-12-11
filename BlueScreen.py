@@ -50,6 +50,17 @@ Passwords = ['Zeus', 'Athena', 'Apollo', 'Anubis', 'Medusa', 'Odin', 'Hercules',
 characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+'
 DefaultGateway = '192.168.1.1'
 
+def winmain():
+    print(Art)
+    MyOS = platform.system()
+    print(MyOS)
+
+    #WINMENU
+    if 'Windows' in MyOS:
+        print('we be runnin windows, now write the menu')
+
+
+
 def main():
     print(Art)
     MyOS = platform.system()
@@ -76,7 +87,7 @@ def main():
                         os.system(get_specific_input(str,'{}BlueScreen>>>{}'.format(Color.BLUE,Color.END)))
                 except KeyboardInterrupt:
                     print('Returning to Main Menu')
-                
+
             if Options==1:#Standard Lockdown
                     command_thread = Thread(target=UpdateServices)
                     command_thread.start()
@@ -130,8 +141,8 @@ def main():
                                 UpdateServices()
                         if ConfigOptions==5:
                                 password_reset()
-                        
-                            
+
+
                 except KeyboardInterrupt:
                     print('Returning to Main Menu')
             if Options==3:#Wack a Red Teamer
@@ -164,7 +175,7 @@ def pkill_other_users(username, terminal_line, No_Friendlies):
                         pass
                 else:
                     continue
-                
+
             Enemy+=1
             BeGone=['<<< Exterminate! >>>','<<<Resistence Is Futile>>>','<<<We are the Borg. You will be assimilated. Resistance is futile.>>>','<<<Bite Me>>>']
             message = random.choice(BeGone)
@@ -175,7 +186,7 @@ def pkill_other_users(username, terminal_line, No_Friendlies):
         if Enemy==0:
             break
 
-            
+
 def Install_IpTables_Persist():
     Errors=[]
     # Suppress output of subprocesses and capture Errors
@@ -216,7 +227,7 @@ def UpdateServices():
         except subprocess.CalledProcessError as e:
             Errors.append(str(e))
     return Errors
-    
+
 
 def deny_terminal_access_to_all_users():
     passwd_file = '/etc/passwd'
@@ -321,7 +332,7 @@ def config_firewall(MyIP,DefaultGateway,Username):
         IPaddress=UserIpInput.split(',')
         if('all' in UserIpInput.lower()):
             subprocess.call('iptables -A INPUT -p tcp --dport {} -j ACCEPT'.format(Port), shell=True)
-            subprocess.call('iptables -A OUTPUT -p tcp --dport {} -j ACCEPT'.format(Port), shell=True)  
+            subprocess.call('iptables -A OUTPUT -p tcp --dport {} -j ACCEPT'.format(Port), shell=True)
         elif(all(len(item.split('.')) == 4 for item in IPaddress)):
             ConfiguredIps='{}Configured Allowed Ips on Port {}{}{}:'.format(Color.YELLOW,Color.GREEN,Port,Color.CYAN)
             for IPaddress in IPaddress:
@@ -335,7 +346,7 @@ def config_firewall(MyIP,DefaultGateway,Username):
         else:
             print('{}Configure Firewall:{} YO DUMASS, use a valid format next time:{}X.X.X.X,X.x-X.x-X.x-X{}'.format(Color.YELLOW,Color.END,Color.RED,Color.END))
     print('Firewall rules configured successfully.')
-    
+
 def disable_ipv6():
     # Backup current IPv6 rules
     subprocess.call('ip6tables-save > /etc/iptables/rules.v6.backup', shell=True)
@@ -373,7 +384,7 @@ def update_ssh_config(banner_path, allowed_user):
 
         # Check if AllowUsers already exists in the configuration
         allow_users_match = re.search(r'^\s*#?\s*AllowUsers.*$', config_content, flags=re.MULTILINE)
-        
+
         if allow_users_match:
             # If AllowUsers exists, modify it
             config_content = re.sub(allow_users_match.group(), 'AllowUsers {}'.format(allowed_user), config_content)
@@ -391,7 +402,7 @@ def update_ssh_config(banner_path, allowed_user):
         # Change ownership and permissions
         #subprocess.call(['chown', 'root:root', sshd_config_path])
         #subprocess.call(['chmod', '600', sshd_config_path])
-        
+
         # Restart SSH service
         subprocess.call([ 'systemctl', 'restart', 'ssh'])
 
@@ -400,5 +411,8 @@ def update_ssh_config(banner_path, allowed_user):
         os.rename(sshd_config_backup_path, sshd_config_path)
         print('An error occurred: {}'.format(e))
 
-if __name__ == '__main__':
+
+if __name__ == '__main__' and platform.system() == 'Windows':
+    winmain()
+elif __name__ == '__main__':
     main()
