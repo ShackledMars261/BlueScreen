@@ -19,14 +19,12 @@ $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$
 
 
 
-$WinVer = [System.Environment]::OSVersion.Platform
 $hostname = hostname
 $user = whoami
 #find command for this that works please
 $ipaddr = "No Clue RN"
 
-Write-Host "Version:"$WinVer 
+Write-Host "Version:"$PSVersionTable.OS
 Write-Host "Hostname:"$hostname
 Write-Host "User:"$user
 Write-Host "IP Address:"$ipaddr
-
