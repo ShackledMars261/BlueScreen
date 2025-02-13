@@ -54,7 +54,7 @@ function prereqs {
     } else {
         Write-Host "AD Module is not installed"
         Write-Host "Installing AD Module"
-        Install-Module -Name ActiveDirectory -Force
+        Install-WindowsFeature RSAT-AD-PowerShell
         Import-Module ActiveDirectory
     }
     Write-Host "Checking for Choco package manager"
