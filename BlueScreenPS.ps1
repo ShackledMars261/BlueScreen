@@ -50,6 +50,14 @@ function installChoco {
     [void][System.Console]::ReadKey($true)
 }
 
+function ExplorerSetup {
+
+}
+
+function RunWinUtil {
+    irm "https://christitus.com/win" | iex
+}
+
 function mainMenu {
     $mainMenu = 'X'
     while($mainMenu -ne ''){
@@ -155,6 +163,8 @@ function subMenu3 {
             Write-Host -ForegroundColor DarkCyan " Show processes"
         Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "2"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
             Write-Host -ForegroundColor DarkCyan " Scan Subnet"
+        Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "3"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
+            Write-Host -ForegroundColor DarkCyan " Run CTT WinUtil"
         $subMenu3 = Read-Host "`nSelection (leave blank to quit)"
         $timeStamp = Get-Date -Uformat %m%d%y%H%M
         # Option 1
@@ -173,6 +183,15 @@ function subMenu3 {
             Write-Host "`nPress any key to return to the previous menu"
             [void][System.Console]::ReadKey($true)
         }
+        # Option 3
+        if($subMenu3 -eq 3){
+            RunWinUtil
+            Write-Host -ForegroundColor DarkCyan "`nOnly Run Tweaks>Reccomended>Standard (too lazy to implement myself)"
+            # Pause and wait for input before going back to the menu
+            Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
+            Write-Host "`nPress any key to return to the previous menu"
+            [void][System.Console]::ReadKey($true)
+
     }
 }
 prereqs
