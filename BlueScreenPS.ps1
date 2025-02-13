@@ -60,7 +60,8 @@ function ExplorerSetup {
 
 function RunWinUtil {
     Invoke-WebRequest -Uri $jsonURL -OutFile $jsonPath
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ""& { $(irm christitus.com/win) } -Config '%jsonPath%'"""
+    powershell -NoProfile -ExecutionPolicy Bypass -Command
+    invoke-expression 'cmd /c start powershell -NoProfile -ExecutionPolicy Bypass -Command {iwr christitus.com/win | iex -Config $jsonPath}'
 }
 
 function mainMenu {
