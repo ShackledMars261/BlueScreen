@@ -29,7 +29,7 @@ function updatescript {
     del ~/Desktop/BlueScreenPS.ps1.temp
     Invoke-WebRequest https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/BlueScreenPS.ps1 -OutFile ~/Desktop/BlueScreenPS.ps1.temp
     Invoke-WebRequest $jsonURL -OutFile ~/Desktop/script.json
-    powershell -NoProfile -ExecutionPolicy Bypass -Command {mv -f ~/Desktop/BlueScreenPS.ps1.temp ~/Desktop/BlueScreenPS.ps1}
+    powershell -NoProfile -ExecutionPolicy Bypass -Command {mv -Force ~/Desktop/BlueScreenPS.ps1.temp ~/Desktop/BlueScreenPS.ps1}
     Write-Host "Script Updated!"
     Write-Host "Press any key to exit"
     [void][System.Console]::ReadKey($true)
