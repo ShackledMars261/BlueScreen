@@ -24,6 +24,12 @@ $wshell = New-Object -ComObject Wscript.Shell
 $jsonPath = "$env:USERPROFILE\Desktop\script.json"
 $jsonURL = "https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json"
 
+
+function updatescript {
+    wget https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/BlueScreenPS.ps1 > ~/Desktop/BlueScreenPS.ps1
+    wget https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json > ~/Desktop/script.json
+}
+
 function header {
     Clear-Host
     Write-Host $logo "`n`nWelcome to BlueScreen PWSH.`nCollecting Info, Please Wait..."
