@@ -191,6 +191,7 @@ function subMenu3 {
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
             [void][System.Console]::ReadKey($true)
+        }
 
     }
 }
