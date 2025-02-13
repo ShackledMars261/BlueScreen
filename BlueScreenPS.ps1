@@ -235,7 +235,7 @@ function subMenu3 {
         }
         # Option 2
         if($subMenu3 -eq 2){
-            nmap -A $combineaddr -oS $timeStamp-nmap.txt
+            nmap -A $combinedaddr -oS $timeStamp-nmap.txt
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
