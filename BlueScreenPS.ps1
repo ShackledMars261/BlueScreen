@@ -83,12 +83,14 @@ function ResetPasswords {
         $newPassword = $Passwords | Get-Random -Count 1
         $newPassword | ConvertTo-SecureString -AsPlainText -Force | Set-ADAccountPassword $ADuser -NewPassword -Reset -PassThru
         Write-Host "Password for $ADuser has been reset to $newPassword"
-        Write-File -Path $env:USERPROFILE\Desktop\PasswordReset.txt -InputObject "Password for $ADuser has been reset to $newPassword" -Append
+        Write-File -Path $env:USERPROFILE\Desktop\ADPasswordReset.txt -InputObject "Password for $ADuser has been reset to $newPassword" -Append
     }
     Get-LocalUser -Name * | Where-Object { $_.Enabled -eq 'True' } | ForEach-Object {
         $LocalUser = $_.Name
         $newPassword = $Passwords | Get-Random -Count 1
         $newPassword | ConvertTo-SecureString -AsPlainText -Force | Set-LocalUser -Name $user -Password
+        Write-Host "Password for $LocalUser has been reset to $newPassword"
+        Write-File -Path $env:USERPROFILE\Desktop\LocalPasswordReset.txt -InputObject "Password for $LocalUser has been reset to $newPassword" -Append
     }
 
 }
