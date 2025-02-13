@@ -81,6 +81,8 @@ function installChoco {
 }
 
 function ResetPasswords {
+    del $env:USERPROFILE\Desktop\ADPasswordReset.txt
+    del $env:USERPROFILE\Desktop\LocalPasswordReset.txt
     $randPassword = $Passwords | Get-Random -Count 1
     $randNum = Get-Random -Minimum 1 -Maximum 4
     $newPassword = $randPassword + $randNum
@@ -97,13 +99,25 @@ function ResetPasswords {
         Write-Host "Password for $LocalUser has been reset to $newPassword"
         echo "Password for $LocalUser has been reset to $newPassword" >> $env:USERPROFILE\Desktop\LocalPasswordReset.txt
     }
-
 }
 
 function RunWinUtil {
     Invoke-WebRequest -Uri $jsonURL -OutFile $jsonPath
     iwr christitus.com/win -OutFile $env:USERPROFILE\Desktop\WinUtil.ps1
     powershell -NoProfile -ExecutionPolicy Bypass -File $env:USERPROFILE\Desktop\WinUtil.ps1 -Config $jsonPath
+    Write-Host "Press any key to exit"
+    [void][System.Console]::ReadKey($true)
+}
+
+function cleanup {
+    del $env:USERPROFILE\Downloads\*
+    $task = Get-ScheduledTask
+    if($task -ne $null){
+        Unregister-ScheduledTask $task.TaskName -Confirm:$false
+    }
+    else{
+        Write-Host "No Scheduled Tasks Found"
+    }
     Write-Host "Press any key to exit"
     [void][System.Console]::ReadKey($true)
 }
