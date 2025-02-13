@@ -79,18 +79,17 @@ function installChoco {
 }
 
 function ResetPasswords {
+    $RandPassword = $Passwords | Get-Random -Count 1
+    $randNum = Get-Random -Minimum 1 -Maximum 4
+    $newPasswordSec = ConvertTo-SecureString -String $newPassword + $randNum -AsPlainText -Force
     Get-ADUser -Filter * | ForEach-Object {
         $ADuser = $_.SamAccountName
-        $newPassword = $Passwords | Get-Random -Count 1 + $numbers | Get-Random -Count 3
-        $newPasswordSec = ConvertTo-SecureString -String $newPassword -AsPlainText -Force
         Set-ADAccountPassword $ADuser -NewPassword $newPasswordSec -Reset
         Write-Host "Password for $ADuser has been reset to $newPassword"
         echo "Password for $ADuser has been reset to $newPassword" >> $env:USERPROFILE\Desktop\ADPasswordReset.txt
     }
     Get-LocalUser -Name * | Where-Object { $_.Enabled -eq 'True' } | ForEach-Object {
         $LocalUser = $_.Name
-        $newPassword = $Passwords | Get-Random -Count 1 + $numbers | Get-Random -Count 3
-        $newPasswordSec = ConvertTo-SecureString -String $newPassword -AsPlainText -Force
         Set-LocalUser -Name $LocalUser -Password $newPasswordSec
         Write-Host "Password for $LocalUser has been reset to $newPassword"
         echo "Password for $LocalUser has been reset to $newPassword" >> $env:USERPROFILE\Desktop\LocalPasswordReset.txt
