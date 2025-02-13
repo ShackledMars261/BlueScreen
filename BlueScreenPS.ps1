@@ -26,6 +26,7 @@ $jsonURL = "https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads
 
 
 function updatescript {
+    del ~/Desktop/BlueScreenPS.ps1.temp
     Invoke-WebRequest https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/BlueScreenPS.ps1 -OutFile ~/Desktop/BlueScreenPS.ps1.temp
     Invoke-WebRequest $jsonURL -OutFile ~/Desktop/script.json
     powershell -NoProfile -ExecutionPolicy Bypass -Command {mv ~/Desktop/BlueScreenPS.ps1.temp ~/Desktop/BlueScreenPS.ps1}
