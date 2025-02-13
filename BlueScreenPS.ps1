@@ -18,11 +18,12 @@ $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$
 $hostname = hostname
 $user = whoami
 $ipaddr = (Get-NetIPAddress | Where-Object { $_.AddressState -eq "Preferred" -and $_.AddressFamily -eq "IPv4" -and $_.IPAddress -NotContains "127.0.0.1"}).IPAddress
+$subnet = (Get-NetIPAddress | Where-Object { $_.AddressState -eq "Preferred" -and $_.AddressFamily -eq "IPv4" -and $_.IPAddress -NotContains "127.0.0.1"}).PrefixLength
 
 function header {
     Clear-Host
     Write-Host $logo "`n`nWelcome to BlueScreen PWSH.`nCollecting Info, Please Wait..."
-    Write-Host "Version:" $PSVersionTable.OS
+    Write-Host "Version:" $PSVersionTable.BuildVersion
     Write-Host "Hostname:" $hostname
     Write-Host "User:" $user
     Write-Host "IP Address:" $ipaddr
@@ -145,28 +146,28 @@ function subMenu2 {
 }
 
 function subMenu3 {
-    $subMenu2 = 'X'
-    while($subMenu2 -ne ''){
+    $subMenu3 = 'X'
+    while($subMenu3 -ne ''){
         Clear-Host
         header
         Write-Host -ForegroundColor Cyan "Lockdown"
         Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "1"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
             Write-Host -ForegroundColor DarkCyan " Show processes"
         Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "2"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
-            Write-Host -ForegroundColor DarkCyan " Show PS Version"
-        $subMenu2 = Read-Host "`nSelection (leave blank to quit)"
+            Write-Host -ForegroundColor DarkCyan " Scan Subnet"
+        $subMenu3 = Read-Host "`nSelection (leave blank to quit)"
         $timeStamp = Get-Date -Uformat %m%d%y%H%M
         # Option 1
-        if($subMenu2 -eq 1){
-            Get-Process
+        if($subMenu3 -eq 1){
+            Get-CimInstance -Class Win32_Process | Select-Object -Property Name, HandleCount, ProcessId, ParentProcessId, Path, CommandLine, WriteTransferCount, ReadTransferCount, WorkingSetSize
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
             [void][System.Console]::ReadKey($true)
         }
         # Option 2
-        if($subMenu2 -eq 2){
-            $PSVersionTable.PSVersion
+        if($subMenu3 -eq 2){
+            nmap -A $ipaddress/$subnet -vv -oN $timeStamp-nmap.txt
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
