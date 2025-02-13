@@ -81,16 +81,18 @@ function ResetPasswords {
     Get-ADUser -Filter * | ForEach-Object {
         $ADuser = $_.SamAccountName
         $newPassword = $Passwords | Get-Random -Count 1
-        $newPassword | ConvertTo-SecureString -AsPlainText -Force | Set-ADAccountPassword $ADuser -NewPassword -Reset -PassThru
+        $newPasswordSec = ConvertTo-SecureString -String $newPassword -AsPlainText -Force
+        Set-ADAccountPassword $ADuser -NewPassword $newPasswordSec -Reset
         Write-Host "Password for $ADuser has been reset to $newPassword"
-        Write-File -Path $env:USERPROFILE\Desktop\ADPasswordReset.txt -InputObject "Password for $ADuser has been reset to $newPassword" -Append
+        echo "Password for $ADuser has been reset to $newPassword" >> $env:USERPROFILE\Desktop\ADPasswordReset.txt
     }
     Get-LocalUser -Name * | Where-Object { $_.Enabled -eq 'True' } | ForEach-Object {
         $LocalUser = $_.Name
         $newPassword = $Passwords | Get-Random -Count 1
-        $newPassword | ConvertTo-SecureString -AsPlainText -Force | Set-LocalUser -Name $user -Password
+        $newPasswordSec = ConvertTo-SecureString -String $newPassword -AsPlainText -Force
+        Set-LocalUser -Name $user -Password $newPasswordSec
         Write-Host "Password for $LocalUser has been reset to $newPassword"
-        Write-File -Path $env:USERPROFILE\Desktop\LocalPasswordReset.txt -InputObject "Password for $LocalUser has been reset to $newPassword" -Append
+        echo "Password for $LocalUser has been reset to $newPassword" >> $env:USERPROFILE\Desktop\LocalPasswordReset.txt
     }
 
 }
@@ -232,7 +234,7 @@ function subMenu3 {
         }
         # Option 2
         if($subMenu3 -eq 2){
-            nmap -A $combineaddr -vv -oN $timeStamp-nmap.txt
+            nmap -A $combineaddr -oS $timeStamp-nmap.txt
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
