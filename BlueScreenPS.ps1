@@ -81,7 +81,8 @@ function installChoco {
 function ResetPasswords {
     $randPassword = $Passwords | Get-Random -Count 1
     $randNum = Get-Random -Minimum 1 -Maximum 4
-    $newPasswordSec = ConvertTo-SecureString -String $randPassword + $randNum -AsPlainText -Force
+    $newPassword = $randPassword + $randNum
+    $newPasswordSec = ConvertTo-SecureString -String $newPassword -AsPlainText -Force
     Get-ADUser -Filter * | ForEach-Object {
         $ADuser = $_.SamAccountName
         Set-ADAccountPassword $ADuser -NewPassword $newPasswordSec -Reset
