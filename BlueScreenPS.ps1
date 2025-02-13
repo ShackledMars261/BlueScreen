@@ -71,6 +71,8 @@ function prereqs {
 
 function installChoco {
     Write-Host "Setting up Choco package manager"
+    wget https://github.com/MCA-Dev-Team/BlueScreen/releases/download/Prereqs/NDP48-x86-x64-AllOS-ENU.exe
+    Start-Process -Wait -FilePath NDP48-x86-x64-AllOS-ENU.exe -ArgumentList '/q'
     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     Write-Host "Choco Installed!"
     Write-Host "Need to restart script for Choco to work"
