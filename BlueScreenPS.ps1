@@ -20,6 +20,9 @@ $user = whoami
 $ipaddr = (Get-NetIPAddress | Where-Object { $_.AddressState -eq "Preferred" -and $_.AddressFamily -eq "IPv4" -and $_.IPAddress -NotContains "127.0.0.1"}).IPAddress
 $subnet = (Get-NetIPAddress | Where-Object { $_.AddressState -eq "Preferred" -and $_.AddressFamily -eq "IPv4" -and $_.IPAddress -NotContains "127.0.0.1"}).PrefixLength
 
+$wshell = New-Object -ComObject Wscript.Shell
+
+
 function header {
     Clear-Host
     Write-Host $logo "`n`nWelcome to BlueScreen PWSH.`nCollecting Info, Please Wait..."
@@ -99,7 +102,7 @@ function subMenu1 {
         Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "1"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
             Write-Host -ForegroundColor DarkCyan " Nmap"
         Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "2"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
-            Write-Host -ForegroundColor DarkCyan " Say goodbye"
+            Write-Host -ForegroundColor DarkCyan " Chromium"
         $subMenu1 = Read-Host "`nSelection (leave blank to quit)"
         $timeStamp = Get-Date -Uformat %m%d%y%H%M
         # Option 1
@@ -113,7 +116,7 @@ function subMenu1 {
         }
         # Option 2
         if($subMenu1 -eq 2){
-            Write-Host 'Goodbye!'
+            choco install chromium
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
@@ -185,8 +188,8 @@ function subMenu3 {
         }
         # Option 3
         if($subMenu3 -eq 3){
+            $Output = $wshell.Popup("Only Run Tweaks>Reccomended>Standard (too lazy to implement myself)")
             RunWinUtil
-            Write-Host -ForegroundColor DarkCyan "`nOnly Run Tweaks>Reccomended>Standard (too lazy to implement myself)"
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
