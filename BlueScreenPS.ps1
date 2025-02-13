@@ -198,7 +198,7 @@ function subMenu3 {
         $timeStamp = Get-Date -Uformat %m%d%y%H%M
         # Option 1
         if($subMenu3 -eq 1){
-            Get-CimInstance -Class Win32_Process | Select-Object -Property Name, HandleCount, ProcessId, ParentProcessId, Path, CommandLine, WriteTransferCount, ReadTransferCount, WorkingSetSize
+            Get-CimInstance -Class Win32_Process | Select-Object -Property Name, HandleCount, ProcessId, ParentProcessId, Path, CommandLine, WriteTransferCount, ReadTransferCount, WorkingSetSize > $timeStamp-processes.txt
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
