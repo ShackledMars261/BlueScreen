@@ -4,6 +4,7 @@ import subprocess
 import random
 import re
 import time
+import requests
 from threading import Thread
 class Color:
     PURPLE = '\033[95m'
@@ -410,6 +411,53 @@ def update_ssh_config(banner_path, allowed_user):
         # Restore original sshd_config in case of error
         os.rename(sshd_config_backup_path, sshd_config_path)
         print('An error occurred: {}'.format(e))
+
+def download_linpeas():
+    url = "https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh"
+    linpeas_path = "/usr/local/bin/linpeas.sh"
+    
+    try:
+        print("Downloading LinPEAS...")
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+        
+        with open(linpeas_path, "wb") as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+        
+        os.chmod(linpeas_path, 0o755)
+        print(f"LinPEAS installed successfully at {linpeas_path}")
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading LinPEAS: {e}")
+        return None
+    
+    return linpeas_path
+
+def verify_installation():
+    try:
+        result = subprocess.run(["/usr/local/bin/linpeas.sh", "-h"], capture_output=True, text=True)
+        if "LinPEAS" in result.stdout:
+            print("LinPEAS installation verified successfully!")
+        else:
+            print("LinPEAS installation verification failed!")
+    except Exception as e:
+        print(f"Error verifying LinPEAS: {e}")
+
+def run_linpeas():
+    try:
+        print("Running LinPEAS...")
+        subprocess.run(["/usr/local/bin/linpeas.sh"], text=True)
+    except Exception as e:
+        print(f"Error running LinPEAS: {e}")
+
+if __name__ == "__main__":
+    path = download_linpeas()
+    if path:
+        verify_installation()
+        run_linpeas()
+
+    
 
 
 if __name__ == '__main__' and platform.system() == 'Windows':
