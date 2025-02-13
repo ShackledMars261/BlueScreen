@@ -28,6 +28,9 @@ $jsonURL = "https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads
 function updatescript {
     wget https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/BlueScreenPS.ps1 > ~/Desktop/BlueScreenPS.ps1
     wget https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json > ~/Desktop/script.json
+    Write-Host "Script Updated!"
+    Write-Host "Press any key to exit"
+    [void][System.Console]::ReadKey($true)
 }
 
 function header {
