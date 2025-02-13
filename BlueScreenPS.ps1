@@ -14,6 +14,7 @@ $Passwords = "Zeus", "Athena", "Apollo", "Anubis", "Medusa", "Odin", "Hercules",
              "Pontus", "Tartarus", "Ares", "Castor", "Chaos", "Crios", "Dionysus", "Helios", "Hyperion", "Hypnos"
 
 $characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+"
+$numbers = "0123456789"
 
 $hostname = hostname
 $user = whoami
@@ -80,7 +81,7 @@ function installChoco {
 function ResetPasswords {
     Get-ADUser -Filter * | ForEach-Object {
         $ADuser = $_.SamAccountName
-        $newPassword = $Passwords | Get-Random -Count 1
+        $newPassword = $Passwords | Get-Random -Count 1 + $numbers | Get-Random -Count 3
         $newPasswordSec = ConvertTo-SecureString -String $newPassword -AsPlainText -Force
         Set-ADAccountPassword $ADuser -NewPassword $newPasswordSec -Reset
         Write-Host "Password for $ADuser has been reset to $newPassword"
@@ -88,9 +89,9 @@ function ResetPasswords {
     }
     Get-LocalUser -Name * | Where-Object { $_.Enabled -eq 'True' } | ForEach-Object {
         $LocalUser = $_.Name
-        $newPassword = $Passwords | Get-Random -Count 1
+        $newPassword = $Passwords | Get-Random -Count 1 + $numbers | Get-Random -Count 3
         $newPasswordSec = ConvertTo-SecureString -String $newPassword -AsPlainText -Force
-        Set-LocalUser -Name $user -Password $newPasswordSec
+        Set-LocalUser -Name $LocalUser -Password $newPasswordSec
         Write-Host "Password for $LocalUser has been reset to $newPassword"
         echo "Password for $LocalUser has been reset to $newPassword" >> $env:USERPROFILE\Desktop\LocalPasswordReset.txt
     }
