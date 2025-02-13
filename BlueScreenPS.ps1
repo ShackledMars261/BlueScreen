@@ -100,6 +100,11 @@ function mainMenu {
         if($mainMenu -eq 3){
             subMenu3
         }
+        #update script
+        if($mainMenu -eq 4){
+            updatescript
+        }
+
     }
 }
 
@@ -203,14 +208,6 @@ function subMenu3 {
             $Output = $wshell.Popup("Only Run Tweaks>Reccomended>Standard (too lazy to implement myself)")
             wget https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json > ~/Desktop/script.json
             RunWinUtil
-            # Pause and wait for input before going back to the menu
-            Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
-            Write-Host "`nPress any key to return to the previous menu"
-            [void][System.Console]::ReadKey($true)
-        }
-        #update script
-        if($mainMenu -eq 4){
-            updatescript
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
