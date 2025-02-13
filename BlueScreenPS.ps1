@@ -83,6 +83,9 @@ function mainMenu {
             Write-Host -ForegroundColor DarkCyan " Updates"
         Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "3"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
             Write-Host -ForegroundColor DarkCyan " Lockdown"
+        Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "4"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
+            Write-Host -ForegroundColor DarkCyan " Update Script"
+
 
         $mainMenu = Read-Host "`nSelection (leave blank to quit)"
         # Launch submenu1
@@ -200,6 +203,14 @@ function subMenu3 {
             $Output = $wshell.Popup("Only Run Tweaks>Reccomended>Standard (too lazy to implement myself)")
             wget https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json > ~/Desktop/script.json
             RunWinUtil
+            # Pause and wait for input before going back to the menu
+            Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
+            Write-Host "`nPress any key to return to the previous menu"
+            [void][System.Console]::ReadKey($true)
+        }
+        #update script
+        if($mainMenu -eq 4){
+            updatescript
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
