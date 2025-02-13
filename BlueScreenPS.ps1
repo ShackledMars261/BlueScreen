@@ -71,8 +71,8 @@ function ExplorerSetup {
 
 function RunWinUtil {
     Invoke-WebRequest -Uri $jsonURL -OutFile $jsonPath
-    iwr christitus.com/win -OutFile ~/Desktop/WinUtil.ps1
-    powershell -NoProfile -ExecutionPolicy Bypass -File ~/Desktop/WinUtil.ps1 -Config $jsonPath
+    iwr christitus.com/win -OutFile $env:USERPROFILE\Desktop\WinUtil.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -File $env:USERPROFILE\Desktop\WinUtil.ps1 -Config $jsonPath
     Write-Host "Press any key to exit"
     [void][System.Console]::ReadKey($true)
 }
