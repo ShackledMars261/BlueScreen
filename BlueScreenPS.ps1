@@ -43,7 +43,7 @@ function header {
     Write-Host "Version:" $PSVersionTable.BuildVersion
     Write-Host "Hostname:" $hostname
     Write-Host "User:" $user
-    Write-Host "IP Address:" $ipaddr
+    Write-Host "IP Address:" $combinedaddr
 }
 function prereqs {
     Write-Host "Setting up Prerequisites"
