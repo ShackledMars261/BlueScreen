@@ -26,8 +26,8 @@ $jsonURL = "https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads
 
 
 function updatescript {
-    Invoke-WebRequest https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/BlueScreenPS.ps1 > ~/Desktop/BlueScreenPS.ps1
-    Invoke-WebRequest https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json > ~/Desktop/script.json
+    Invoke-WebRequest https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/BlueScreenPS.ps1 -OutFile ~/Desktop/BlueScreenPS.ps1
+    Invoke-WebRequest https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json -OutFile ~/Desktop/script.json
     Write-Host "Script Updated!"
     Write-Host "Press any key to exit"
     [void][System.Console]::ReadKey($true)
@@ -69,7 +69,6 @@ function ExplorerSetup {
 
 function RunWinUtil {
     Invoke-WebRequest -Uri $jsonURL -OutFile $jsonPath
-    powershell -NoProfile -ExecutionPolicy Bypass -Command
     invoke-expression 'cmd /c start powershell -NoProfile -ExecutionPolicy Bypass -Command {iwr christitus.com/win | iex -Config $jsonPath}'
 }
 
