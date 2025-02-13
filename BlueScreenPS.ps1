@@ -47,6 +47,16 @@ function header {
 }
 function prereqs {
     Write-Host "Setting up Prerequisites"
+    Write-Host "Checking for and Importing AD Module"
+    if (Get-Module -ListAvailable -Name ActiveDirectory) {
+        Import-Module ActiveDirectory
+        Write-Host "AD Module is already installed"
+    } else {
+        Write-Host "AD Module is not installed"
+        Write-Host "Installing AD Module"
+        Install-Module -Name ActiveDirectory -Force
+        Import-Module ActiveDirectory
+    }
     Write-Host "Checking for Choco package manager"
     if (Test-Path 'C:\ProgramData\chocolatey\choco.exe') {
         Write-Host "Choco is already installed"
@@ -67,7 +77,19 @@ function installChoco {
     [void][System.Console]::ReadKey($true)
 }
 
-function ExplorerSetup {
+function ResetPasswords {
+    Get-ADUser -Filter * | ForEach-Object {
+        $ADuser = $_.SamAccountName
+        $newPassword = $Passwords | Get-Random -Count 1
+        $newPassword | ConvertTo-SecureString -AsPlainText -Force | Set-ADAccountPassword $ADuser -NewPassword -Reset -PassThru
+        Write-Host "Password for $ADuser has been reset to $newPassword"
+        Write-File -Path $env:USERPROFILE\Desktop\PasswordReset.txt -InputObject "Password for $ADuser has been reset to $newPassword" -Append
+    }
+    Get-LocalUser -Name * | Where-Object { $_.Enabled -eq 'True' } | ForEach-Object {
+        $LocalUser = $_.Name
+        $newPassword = $Passwords | Get-Random -Count 1
+        $newPassword | ConvertTo-SecureString -AsPlainText -Force | Set-LocalUser -Name $user -Password
+    }
 
 }
 
