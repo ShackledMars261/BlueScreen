@@ -21,7 +21,8 @@ $ipaddr = (Get-NetIPAddress | Where-Object { $_.AddressState -eq "Preferred" -an
 $subnet = (Get-NetIPAddress | Where-Object { $_.AddressState -eq "Preferred" -and $_.AddressFamily -eq "IPv4" -and $_.IPAddress -NotContains "127.0.0.1"}).PrefixLength
 
 $wshell = New-Object -ComObject Wscript.Shell
-
+$jsonPath = "$env:USERPROFILE\Desktop\script.json"
+$jsonURL = "https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json"
 
 function header {
     Clear-Host
@@ -58,7 +59,8 @@ function ExplorerSetup {
 }
 
 function RunWinUtil {
-    irm "https://christitus.com/win" | iex
+    Invoke-WebRequest -Uri $jsonURL -OutFile $jsonPath
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ""& { $(irm christitus.com/win) } -Config '%jsonPath%'"""
 }
 
 function mainMenu {
@@ -189,6 +191,7 @@ function subMenu3 {
         # Option 3
         if($subMenu3 -eq 3){
             $Output = $wshell.Popup("Only Run Tweaks>Reccomended>Standard (too lazy to implement myself)")
+            wget https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json > ~/Desktop/script.json
             RunWinUtil
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
