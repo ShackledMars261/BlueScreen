@@ -218,6 +218,8 @@ function subMenu3 {
             Write-Host -ForegroundColor DarkCyan " Scan Subnet"
         Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "3"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
             Write-Host -ForegroundColor DarkCyan " Run CTT WinUtil"
+        Write-Host -ForegroundColor DarkCyan -NoNewline "`n["; Write-Host -NoNewline "4"; Write-Host -ForegroundColor DarkCyan -NoNewline "]"; `
+            Write-Host -ForegroundColor DarkCyan " Reset Passwords"
         $subMenu3 = Read-Host "`nSelection (leave blank to quit)"
         $timeStamp = Get-Date -Uformat %m%d%y%H%M
         # Option 1
@@ -241,6 +243,15 @@ function subMenu3 {
             $Output = $wshell.Popup("Just go to Tweaks and Hit 'Run Tweaks'")
             wget https://raw.githubusercontent.com/MCA-Dev-Team/BlueScreen/refs/heads/main/script.json > ~/Desktop/script.json
             RunWinUtil
+            # Pause and wait for input before going back to the menu
+            Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
+            Write-Host "`nPress any key to return to the previous menu"
+            [void][System.Console]::ReadKey($true)
+        }
+        # Option 4
+        # Reset Passwords
+        if($subMenu3 -eq 4){
+            ResetPasswords
             # Pause and wait for input before going back to the menu
             Write-Host -ForegroundColor DarkCyan "`nScript execution complete."
             Write-Host "`nPress any key to return to the previous menu"
