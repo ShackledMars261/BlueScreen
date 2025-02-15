@@ -4,7 +4,6 @@ import subprocess
 import random
 import re
 import time
-import requests
 from threading import Thread
 
 
@@ -527,5 +526,5 @@ def update_ssh_config(banner_path, allowed_user):
         os.rename(sshd_config_backup_path, sshd_config_path)
         print('An error occurred: {}'.format(e))
 
-
-
+if __name__ == '__main__':
+    main()
