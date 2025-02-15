@@ -276,6 +276,11 @@ function subMenu3 {
             Write-Host "`nPress any key to return to the previous menu"
             [void][System.Console]::ReadKey($true)
         }
+        # Option 5
+        # Cleanup
+        if($subMenu3 -eq 5){
+            cleanup
+        }
     }
 }
 prereqs
