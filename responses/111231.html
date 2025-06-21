@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8079318170526131"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recover</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h2 {
+            margin: 0 0 20px 0;
+            color: #333;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #ff4500;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ff6600;
+        }
+        .toggle-form {
+            color: #007bff;
+            cursor: pointer;
+            margin-top: 10px;
+            display: block;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+          <h2>Recover Password</h2>
+          <form method="post" action="/change_password?session_id=52add6b87407d761c8fd93fec0b608254f097422998173333">
+              <p>Enter recovery code sent to peter@rezifyadmin.com</p>
+              <input type="hidden" name="type" value="recover">
+              <input type="text" name="code" placeholder="Code" required maxlength="6" minlength="6">
+              <input type="password" name="password" placeholder="New Password" required minlength="8" maxlength="40">
+              <input type="password" name="confirm_password" placeholder="Confirm New Password" required minlength="8" maxlength="40">
+              <button type="submit">Confirm</button>
+              
+                  <p class="error-message">Incorrect Code</p>
+              
+          </form>
+          <span class="toggle-form" onclick="window.location.href='/recover?session_id=52add6b87407d761c8fd93fec0b608254f097422998173333&amp;recover_page=True'">Send Code Again</span>
+        
+    </div>
+</body>
+<script>
+    function validateRecoveryForm(event) {
+        const inputs = document.querySelectorAll('input[type="text"]');
+        const forbiddenKeywords = ['DROP', 'DELETE', 'INSERT', 'UPDATE', 'SELECT', '--', ';'];
+
+        for (let input of inputs) {
+            const value = input.value.trim();
+            const upperValue = value.toUpperCase();
+
+            // Length check
+            if (value.length < 1 || value.length > 50) {
+                alert(`"${input.placeholder}" must be between 1 and 50 characters.`);
+                input.focus();
+                event.preventDefault();
+                return false;
+            }
+
+            // SQL keyword check
+            for (let keyword of forbiddenKeywords) {
+                if (upperValue.includes(keyword)) {
+                    alert(`Invalid input detected in "${input.placeholder}". Please remove suspicious text.`);
+                    input.focus();
+                    event.preventDefault();
+                    return false;
+                }
+            }
+    }
+
+    // Attach to the form(s)
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form[action*="change_password"]');
+        if (form) {
+            form.addEventListener('submit', validateRecoveryForm);
+        }
+    });
+</script>
+</html>
