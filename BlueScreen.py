@@ -96,11 +96,11 @@ def main():
         terminal_line = ''
         login_time = ''
         ip_address = ''
-    
+
     # Get default gateway
     default_gateway = next(line.split()[2] for line in subprocess.check_output(['ip', 'route']).decode().splitlines() if 'default' in line)
 
-    
+
     print('''Detected: {}{}{}
 Running As: {}{}{}
 Username: {}{}{}
@@ -116,7 +116,7 @@ Default Gateway: {}{}{}'''.format(
         Color.PURPLE, ip_address, Color.YELLOW,
         Color.BLUE, default_gateway, Color.END
     ))
-    
+
     # MENU
     try:
         while True:
@@ -236,7 +236,7 @@ def pkill_other_users(username, terminal_line, No_Friendlies, ip_address):
                 continue
             if user_info[0] == username and not No_Friendlies:
                 continue
-                
+
             if(ip_address!=''):
                 if len(user_info) >= 5 and user_info[-1].startswith('(') and user_info[-1].endswith(')'):
                     session_ip = user_info[-1].strip('()')
@@ -460,13 +460,13 @@ def check_services():
             force_quit_service(service)
             delete_service(service)
         else:
-            print('{}Skipping: {}{}{}'.format(Color.YELLOW, Color.GREEN, service,Color.END)) 
+            print('{}Skipping: {}{}{}'.format(Color.YELLOW, Color.GREEN, service,Color.END))
 
 def delete_service(service):
     cmd = ['systemctl', 'show', service, '-p', 'FragmentPath']
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
     fragment_line = p.communicate()[0].strip()
-    
+
     if fragment_line.startswith('FragmentPath='):
         fragment_path = fragment_line.split('=', 1)[1]
         if fragment_path:
@@ -527,5 +527,47 @@ def update_ssh_config(banner_path, allowed_user):
         os.rename(sshd_config_backup_path, sshd_config_path)
         print('An error occurred: {}'.format(e))
 
+def download_linpeas():
+    url = "https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh"
+    linpeas_path = "/usr/local/bin/linpeas.sh"
 
+    try:
+        print("Downloading LinPEAS...")
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
 
+        with open(linpeas_path, "wb") as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+
+        os.chmod(linpeas_path, 0o755)
+        print(f"LinPEAS installed successfully at {linpeas_path}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading LinPEAS: {e}")
+        return None
+
+    return linpeas_path
+def verify_installation():
+    try:
+        result = subprocess.run(["/usr/local/bin/linpeas.sh", "-h"], capture_output=True, text=True)
+        if "LinPEAS" in result.stdout:
+            print("LinPEAS installation verified successfully!")
+        else:
+            print("LinPEAS installation verification failed!")
+    except Exception as e:
+        print(f"Error verifying LinPEAS: {e}")
+def run_linpeas():
+    try:
+        print("Running LinPEAS...")
+        subprocess.run(["/usr/local/bin/linpeas.sh"], text=True)
+    except Exception as e:
+        print(f"Error running LinPEAS: {e}")
+if __name__ == "__main__":
+    path = download_linpeas()
+    if path:
+        verify_installation()
+        run_linpeas()
+
+if __name__ == '__main__':
+    main()
